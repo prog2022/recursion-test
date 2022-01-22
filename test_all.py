@@ -32,7 +32,7 @@ from fibonacci import fibonacci
         (0, 0),
         (5, 5),
         (20, 6765),
-        (44, 701408733),   # this will timeout if solution is incorrect
+        (45, 1134903170),   # this will timeout if solution is incorrect
     ])
 def test_fibonacci(n, result):
     assert fibonacci(n) == result
@@ -64,9 +64,9 @@ from flatten import flatten
         ([], []),                 # edge case
         ([1], [1]),               # another edge case
         (['a','b'], ['a','b']),   # flat already
-        ([['a','b'],'c'],['a','b','c']),
-        (['a',['b',['c']]],['a','b','c']),
-        ([1,[10,20],2,[3,[[4,5],6],[],7],8],[1,10,20,2,3,4,5,6,7,8]),
+        ([['a','b'],'c'], ['a','b','c']),
+        (['a',['b',['c']]], ['a','b','c']),
+        ([1,[10,20],2,[3,[[4,5],6],[],7],8], [1,10,20,2,3,4,5,6,7,8]),
     ])
 def test_flatten(lst, result):
     assert flatten(lst) == result
@@ -95,11 +95,13 @@ from split_array import split_array
 @pytest.mark.parametrize(
     "array, result",
     [
-        ([2, 2, 2, 2], True),
-        ([2, 2, 2, 3], False),
+        ([2, 2, 2, 2], True),   # split [2,2] and [2,2]
+        ([2, 2, 2, 4], False),
+        ([2, 2, 2, 2, 2, 4, 6], True), # split [2,2,2,2,2] and [4,6]
+        ([4, 4, 4, 2, 2, 2, 2, 2, 2], True),
         ([1, 2, 3, 0, 0, 1, 5], True),
-        ([1, 2, 3, 0, 0, 1, 6], False),
-        ([1, 2, 3, 0, 0, 1, 7, 0, 0], True),
+        ([1, 2, 3, 4, 5, 2, 4], False),
+        ([1, 2, 3, 1, 1, 1, 7, 1, 1], True),
     ])
 def test_split_array(array, result):
     assert split_array(array) == result
@@ -132,6 +134,7 @@ from unique import unique
         (['a','a','a'], ['a']),
         ([5,4,5,5,2,4], [5,4,2]),
         (['a','aaa','a','aa','aa'],['a','aaa','aa']),
+        (['a','b',3,'b','b','c',3], ['a','b',3,'c']),
     ])
 def test_unique(testlist, result):
     assert unique(testlist) == result
